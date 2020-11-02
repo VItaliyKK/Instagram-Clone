@@ -1,0 +1,131 @@
+<ngx-spinner></ngx-spinner>
+<div class="post_details_full_screen_background" #postDetails (window:resize)="onResizeWindow($event)">
+    <div class="post_details_wrapper">
+        <div class="post_details_image">
+            <div *ngIf="postHasOnePhoto()" class="imgs_list">
+                <div class="img_post" [ngStyle]="{'backgroundImage': 'url('+photosPost[0]+')'}"></div>
+            </div>
+            
+            <div class="group_icon" *ngIf="!postHasOnePhoto()"></div>
+
+            <ngx-hm-carousel *ngIf="!postHasOnePhoto()" class="carousel c-accent"
+                    [autoplay]="false"
+                    [show-num]="1"
+                    [scroll-num]="1"
+                    [align]="right"
+                    [infinite]="false"
+                    [drag-many]="false"
+                    [data]="photosPost">
+                <section ngx-hm-carousel-container class="content carousel_content" [ngStyle]="{'width': scrollPhotoWidth+'px!important', 'height': scrollPhotoWidth+'px'}">
+                    <article class="carousel_img_element_wrapper cursor-pointer" ngx-hm-carousel-item *ngFor="let photo of photosPost; let i = index" [ngStyle]="{'width': scrollPhotoWidth+'px', 'height': scrollPhotoWidth+'px'}">
+                        <div *ngxHmCarouselDynamic="i; length: photosPost.length; index: currentI" class="carousel_img_element" [ngStyle]="{'backgroundImage': 'url('+photo+')'}">
+                        </div>
+                    </article>
+                </section>    
+            </ngx-hm-carousel>
+        </div>
+        <div class="post_details_content">
+            <section class="post_details_header">
+                <div class="post_details_header_info">
+                    <a [routerLink]="[ '/profile/posts', currentPost.id ]" class="small_photo_icon" [lazyLoad]="currentPost.profilePhoto"></a>
+                    <div class="post_details_header_data">
+                        <a [routerLink]="[ '/profile/posts', currentPost.id ]" class="comment_nikname">{{currentPost.postBy}}</a>
+                        <span class="post_details_header_data_location">{{currentPost.location}}</span>
+                    </div>
+                </div>
+                <svg (click)="openModal(optionPostModal)" *ngIf="viewAuthUserPost" aria-label="More options" fill="#262626" height="16" viewBox="0 0 48 48" width="16"><circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle><circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle><circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle></svg>
+            </section>
+            <div class="post_details_comments_all">
+                <section class="post_details_description" *ngIf="currentPost.description">
+                    <a [routerLink]="[ '/profile/posts', currentPost.id ]" class="small_photo_icon" [lazyLoad]="currentPost.profilePhoto"></a>
+                    <div class="post_details_description_content">
+                        <a [routerLink]="[ '/profile/posts', currentPost.id ]" class="comment_nikname">{{ currentPost.postBy }}</a>
+                        <p class="comment_text">{{ currentPost.description }}</p>
+                        <time>{{ currentPost.date.seconds | convertDate | date:'LLL d, HH:mm' }}</time>
+                    </div>
+                </section>
+                <section class="post_details_comments">
+                    <app-preloader *ngIf="loadingComments"></app-preloader>
+                    <div class="comment_block" *ngFor="let comment of comments; let i=index">
+                        <a [routerLink]="[ '/profile/posts', comment.idUser ]" class="small_photo_icon" [lazyLoad]="comment.userPhoto"></a>
+                        <div class="comment_content">
+                            <a [routerLink]="[ '/profile/posts', comment.idUser ]">
+                                <span class="comment_nikname">{{ comment.postBy }}</span>
+                            </a>
+                            <p class="comment_text">{{ comment.text }}</p>
+                            <time>{{ comment.date.seconds | convertDate | date:'LLL d, HH:mm' }}</time>
+                        </div>
+                        <svg (click)="deleteComment(comment.idComment, comment.idPinPost)" *ngIf="checkIfViewOwnerComment(comment.idUser)" viewBox="0 0 29 29" width="18" height="18">
+                            <path d="M19.795 27H9.205a2.99 2.99 0 0 1-2.985-2.702L4.505 7.099A.998.998 0 0 1 5.5 6h18a1 1 0 0 1 .995 1.099L22.78 24.297A2.991 2.991 0 0 1 19.795 27zM6.604 8L8.21 24.099a.998.998 0 0 0 .995.901h10.59a.998.998 0 0 0 .995-.901L22.396 8H6.604z" fill="#262626" class="color000 svgShape"></path>
+                            <path d="M26 8H3a1 1 0 110-2h23a1 1 0 110 2zM14.5 23a1 1 0 01-1-1V11a1 1 0 112 0v11a1 1 0 01-1 1zM10.999 23a1 1 0 01-.995-.91l-1-11a1 1 0 01.905-1.086 1.003 1.003 0 011.087.906l1 11a1 1 0 01-.997 1.09zM18.001 23a1 1 0 01-.997-1.09l1-11c.051-.55.531-.946 1.087-.906a1 1 0 01.905 1.086l-1 11a1 1 0 01-.995.91z" fill="#262626" class="color000 svgShape"></path>
+                            <path d="M19 8h-9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zm-8-2h7V4h-7v2z" fill="#262626" class="color000 svgShape"></path>
+                        </svg>
+                    </div>
+                </section>
+            </div>
+            <section class="post_details_likes_comments">
+                <div class="post_action_likes_comment">
+                    <button type="button" (click)="addOrRemoveLike()" class="post_action_like">
+                        <svg *ngIf="!currentPost.isLiked" aria-label="Like" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+                        <svg *ngIf="currentPost.isLiked" aria-label="Unlike" fill="#ed4956" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+                    </button>
+                    <label class="post_action_comment" for="addCommentInPostTextarea">
+                        <svg aria-label="Comment" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path></svg>
+                    </label>
+                    <button (click)="sharePostProcess(sharePostModal, currentPost.idPost)" class="post_action_share" type="button">
+                        <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>
+                    </button>
+                </div>
+                <button type="button" (click)="addOrRemoveSavedPost()" class="post_action_saved">
+                    <svg *ngIf="!currentPost.isSaved" aria-label="Save" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z"></path></svg>
+                    <svg *ngIf="currentPost.isSaved" aria-label="Remove" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 28.9 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1z"></path></svg>
+                </button>
+            </section>
+            <section class="post_details_add_comment">
+                <textarea id="addCommentInPostTextarea" name="commentTextarea" [(ngModel)]="commentTextarea" cols="30" rows="10" placeholder="Add a comment..."></textarea>
+                <button (click)="addNewComment()" type="button">Post</button>
+            </section>
+        </div>
+    </div>
+    <div class="close_area_component" (click)="closePostDetailsComponent()"></div>
+</div>
+
+
+<ng-template #optionPostModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Post option</h4>
+      </div>
+    <div class="modal-body">
+      <button class="delete_post" (click)="deleteCurrentPost()" type="button">Delete Post</button>
+    </div>
+</ng-template>
+
+<ng-template #sharePostModal>
+    <div class="modal-header createNewDialogModalHead">
+        <svg (click)="modalRef.hide()" aria-label="Close" fill="#262626" height="18" viewBox="0 0 48 48" width="18"><path clip-rule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fill-rule="evenodd"></path></svg>
+        <h4 class="modal-title pull-left">Share Post</h4>
+        <button (click)="sendPost()" type="button" [disabled]="disabledCreateDialog">Next</button>
+    </div>
+    <div class="modal-body createNewDialogModalBody">
+        <h4>To:</h4>
+        <input (keyup)="searchingUser($event)" type="text" class="search_user_input" [(ngModel)]="searchInput" name="searchInput" placeholder="Search...">
+    </div>
+    
+    <div class="modal-body createNewDialogModalFooter">
+        <div class="potensialUsersList">
+            <div class="selectedUser" *ngFor="let selectedUser of selectedUserForSendPost" (click)="addInListUserForSharedPost(selectedUser)">
+                <span>{{selectedUser.nikname}}</span>
+                <svg aria-label="Delete Item" fill="#0095f6" height="12" viewBox="0 0 48 48" width="12"><path clip-rule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fill-rule="evenodd"></path></svg>
+            </div>
+        </div>
+        <h4>Search result:</h4>
+        <div class="search_result" *ngFor="let foundUser of foundUsers" (click)="addInListUserForSharedPost(foundUser)">
+            <div class="found_user_icon" [ngStyle]="{'backgroundImage': 'url('+foundUser.profilePhoto+')'}"></div>
+            <div class="found_user_info">
+                <div class="found_user_nikname">{{foundUser.nikname}}</div>
+                <div class="found_user_fullName">{{foundUser.fullname}}</div>
+            </div>
+            <span class="selected" [ngClass]="{'selected': checkIsSelected(foundUser)}"></span>
+        </div>
+    </div>
+</ng-template>

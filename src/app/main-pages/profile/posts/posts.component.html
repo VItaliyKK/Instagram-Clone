@@ -1,0 +1,49 @@
+<section class="content_wrapper" (window:scroll)="onScroll()">
+    <header *ngIf="viewAuthUser">
+        <button (click)="openModal(addNewPostModal)" type="button">New Post</button>
+    </header>
+    <div class="content">
+        <div class="element" *ngFor="let post of posts; let i=index">
+            <div class="element_image" [ngStyle]="{'backgroundImage': 'url('+post.photos[0]+')'}"></div>
+            <div class="info_post_container">
+                <button class="info_post" [routerLink]="[ '/profile/posts', id, post.idPost]" type="button">
+                    <div class="info_post_likes">
+                        <div [ngStyle]="{'backgroundImage': 'url(../../assets/images/collection-icons.png)'}"></div>
+                        <span>{{post.likesCount}}</span>
+                    </div>
+                    <div class="info_post_comments">
+                        <div [ngStyle]="{'backgroundImage': 'url(../../assets/images/collection-icons.png)'}"></div>
+                        <span>{{getLikesAndCommentsCounts('comments', i)}}</span>
+                    </div>
+                </button>
+            </div>
+            <div class="group_icon" *ngIf="!postHasOnePhoto(post)"></div>
+        </div>
+        <p class="empty_list" *ngIf="postsEmpty">Not have any post yet</p>
+    </div>
+    <div #bottom_content></div>
+    <app-preloader *ngIf="showPreloader"></app-preloader>
+</section>
+
+<router-outlet></router-outlet>
+
+<ng-template #addNewPostModal>
+    <div class="modal-header addNewPostModalHeader">
+        <h4 class="modal-title pull-left">Add New Post</h4>
+    </div>
+    <div class="modal-body addNewPostModalBody">
+        <div class="uploaded_images">
+            <div class="uploaded_img" *ngFor="let img of imgsArr" [ngStyle]="{'backgroundImage': 'url('+ img +')'}">
+            </div>
+        </div>
+        <input (change)="uploadNewPostPhoto($event)" type="file" multiple accept=".jpg,.png,.jpeg,.mp4"
+            style="display:none;" id="image">
+        <label class="new_post_files" for="image">Select Photo or video</label>
+        <textarea class="new_post_description" [(ngModel)]="description" name="description"
+            placeholder="Description"></textarea>
+        <input class="new_post_location" [(ngModel)]="location" name="location" type="text" placeholder="Location">
+
+        <button class="new_post_add" (click)="addPost()" type="button">Add Post</button>
+        <button class="new_post_cancel" (click)="resetAddPostForm()" type="button">Cancel</button>
+    </div>
+</ng-template>

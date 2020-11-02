@@ -1,0 +1,99 @@
+<ngx-spinner></ngx-spinner>
+<div class="profile_wrapper">
+    <header class="profile_header">
+        <div class="profile_header_photo_container">
+            <button class="profile_header_photo_button" type="button">
+                <div class="profile_header_photo" *ngIf="!currentUser.profilePhoto" [style.backgroundImage]="'url(../../../assets/images/default-profile-photo.jpg)'"></div>
+                <div class="profile_header_photo" *ngIf="currentUser.profilePhoto" [lazyLoad]="currentUser.profilePhoto"></div>
+            </button>
+        </div>
+        <section class="profile_info">
+            <div class="profile_info_header">
+                <h2 class="profile_nickname">{{ currentUser?.nikname }}</h2>
+                <div class="profile_info_header_btn_group">
+                    <a class="profile_edit_link" *ngIf="currentUser.viewAuthUser" [routerLink]="[ '/settings/edit-profile' ]">Edit Profile</a>
+                    <button (click)="followOrUnfollowUser()" class="profile_following_button" *ngIf="!currentUser.viewAuthUser" [ngClass]="{'subcribed': currentUser?.isFriend}" type="button">{{currentUser?.isFriend ? 'Unfollow' : 'Follow'}}</button>
+                    <button (click)="goToDialog()" class="profile_following_button subcribed" *ngIf="!currentUser.viewAuthUser && currentUser?.isFriend" style="line-height: 32px;" type="button">Message</button>
+                    <a class="profile_show_modal_list_settings" *ngIf="currentUser.viewAuthUser" [routerLink]="[ '/settings/edit-profile' ]">
+                        <svg fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M46.7 20.6l-2.1-1.1c-.4-.2-.7-.5-.8-1-.5-1.6-1.1-3.2-1.9-4.7-.2-.4-.3-.8-.1-1.2l.8-2.3c.2-.5 0-1.1-.4-1.5l-2.9-2.9c-.4-.4-1-.5-1.5-.4l-2.3.8c-.4.1-.8.1-1.2-.1-1.4-.8-3-1.5-4.6-1.9-.4-.1-.8-.4-1-.8l-1.1-2.2c-.3-.5-.8-.8-1.3-.8h-4.1c-.6 0-1.1.3-1.3.8l-1.1 2.2c-.2.4-.5.7-1 .8-1.6.5-3.2 1.1-4.6 1.9-.4.2-.8.3-1.2.1l-2.3-.8c-.5-.2-1.1 0-1.5.4L5.9 8.8c-.4.4-.5 1-.4 1.5l.8 2.3c.1.4.1.8-.1 1.2-.8 1.5-1.5 3-1.9 4.7-.1.4-.4.8-.8 1l-2.1 1.1c-.5.3-.8.8-.8 1.3V26c0 .6.3 1.1.8 1.3l2.1 1.1c.4.2.7.5.8 1 .5 1.6 1.1 3.2 1.9 4.7.2.4.3.8.1 1.2l-.8 2.3c-.2.5 0 1.1.4 1.5L8.8 42c.4.4 1 .5 1.5.4l2.3-.8c.4-.1.8-.1 1.2.1 1.4.8 3 1.5 4.6 1.9.4.1.8.4 1 .8l1.1 2.2c.3.5.8.8 1.3.8h4.1c.6 0 1.1-.3 1.3-.8l1.1-2.2c.2-.4.5-.7 1-.8 1.6-.5 3.2-1.1 4.6-1.9.4-.2.8-.3 1.2-.1l2.3.8c.5.2 1.1 0 1.5-.4l2.9-2.9c.4-.4.5-1 .4-1.5l-.8-2.3c-.1-.4-.1-.8.1-1.2.8-1.5 1.5-3 1.9-4.7.1-.4.4-.8.8-1l2.1-1.1c.5-.3.8-.8.8-1.3v-4.1c.4-.5.1-1.1-.4-1.3zM24 41.5c-9.7 0-17.5-7.8-17.5-17.5S14.3 6.5 24 6.5 41.5 14.3 41.5 24 33.7 41.5 24 41.5z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <ul class="profile_info_post_follows">
+                <li><span>{{ postsCount }}</span> posts</li>
+                <li class="profile_follow_show" (click)="showFollowingOrFollowersList(showFollowingOrFollowers, 'followers')"><span>{{ followersCount }}</span> followers</li>
+                <li class="profile_follow_show" (click)="showFollowingOrFollowersList(showFollowingOrFollowers, 'following')"><span>{{ followingCount }}</span> following</li>
+            </ul>
+            <div class="profile_info_personal">
+                <h1 class="profile_fullname">{{ currentUser?.fullname }}</h1>
+                <p *ngIf="currentUser?.bio" class="profile_bio">{{ currentUser?.bio }}</p>
+                <p class="profile_location" *ngIf="currentUser?.location">
+                    <span class="profile_location_icon" [ngStyle]="{'backgroundImage': 'url(../../../assets/images/location-icon.png)'}"></span>
+                    <span>{{ currentUser?.location }}</span>
+                </p>
+                <a *ngIf="currentUser?.website" [href]="currentUser?.website" class="profile_personal_link" target="_blank">{{ currentUser?.website }}</a>
+            </div>
+        </section>
+    </header>
+
+    <div class="profile_select_content">
+        <a class="profile_content_link" [routerLink]="[ 'posts/', currentUser?.id ]" routerLinkActive="active">
+            <svg aria-label="Posts" class="_8-yf5 " fill="#262626" height="12" viewBox="0 0 48 48" width="12"><path clip-rule="evenodd" d="M45 1.5H3c-.8 0-1.5.7-1.5 1.5v42c0 .8.7 1.5 1.5 1.5h42c.8 0 1.5-.7 1.5-1.5V3c0-.8-.7-1.5-1.5-1.5zm-40.5 3h11v11h-11v-11zm0 14h11v11h-11v-11zm11 25h-11v-11h11v11zm14 0h-11v-11h11v11zm0-14h-11v-11h11v11zm0-14h-11v-11h11v11zm14 28h-11v-11h11v11zm0-14h-11v-11h11v11zm0-14h-11v-11h11v11z" fill-rule="evenodd"></path></svg>
+            <span>POSTS</span>
+        </a>
+        <a class="profile_content_link" [routerLink]="[ 'igtv/', currentUser?.id ]"  routerLinkActive="active">
+            <svg aria-label="Posts" class="_8-yf5 " fill="#262626" height="12" viewBox="0 0 48 48" width="12"><path d="M41 10c-2.2-2.1-4.8-3.5-10.4-3.5h-3.3L30.5 3c.6-.6.5-1.6-.1-2.1-.6-.6-1.6-.5-2.1.1L24 5.6 19.7 1c-.6-.6-1.5-.6-2.1-.1-.6.6-.7 1.5-.1 2.1l3.2 3.5h-3.3C11.8 6.5 9.2 7.9 7 10c-2.1 2.2-3.5 4.8-3.5 10.4v13.1c0 5.7 1.4 8.3 3.5 10.5 2.2 2.1 4.8 3.5 10.4 3.5h13.1c5.7 0 8.3-1.4 10.5-3.5 2.1-2.2 3.5-4.8 3.5-10.4V20.5c0-5.7-1.4-8.3-3.5-10.5zm.5 23.6c0 5.2-1.3 7-2.6 8.3-1.4 1.3-3.2 2.6-8.4 2.6H17.4c-5.2 0-7-1.3-8.3-2.6-1.3-1.4-2.6-3.2-2.6-8.4v-13c0-5.2 1.3-7 2.6-8.3 1.4-1.3 3.2-2.6 8.4-2.6h13.1c5.2 0 7 1.3 8.3 2.6 1.3 1.4 2.6 3.2 2.6 8.4v13zM34.6 25l-9.1 2.8v-3.7c0-.5-.2-.9-.6-1.2-.4-.3-.9-.4-1.3-.2l-11.1 3.4c-.8.2-1.2 1.1-1 1.9.2.8 1.1 1.2 1.9 1l9.1-2.8v3.7c0 .5.2.9.6 1.2.3.2.6.3.9.3.1 0 .3 0 .4-.1l11.1-3.4c.8-.2 1.2-1.1 1-1.9s-1.1-1.2-1.9-1z"></path></svg>
+            <span>IGTV</span>
+        </a>
+        <a *ngIf="currentUser.viewAuthUser" class="profile_content_link" [routerLink]="[ 'saved/', currentUser?.id ]"  routerLinkActive="active">
+            <svg aria-label="Saved" class="_8-yf5 " fill="#262626" height="12" viewBox="0 0 48 48" width="12"><path d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z"></path></svg>
+            <span>SAVED</span>
+        </a>
+        <a class="profile_content_link" [routerLink]="[ 'tagged/', currentUser?.id ]"  routerLinkActive="active">
+            <svg aria-label="Tagged" class="_8-yf5 " fill="#262626" height="12" viewBox="0 0 48 48" width="12"><path d="M41.5 5.5H30.4c-.5 0-1-.2-1.4-.6l-4-4c-.6-.6-1.5-.6-2.1 0l-4 4c-.4.4-.9.6-1.4.6h-11c-3.3 0-6 2.7-6 6v30c0 3.3 2.7 6 6 6h35c3.3 0 6-2.7 6-6v-30c0-3.3-2.7-6-6-6zm-29.4 39c-.6 0-1.1-.6-1-1.2.7-3.2 3.5-5.6 6.8-5.6h12c3.4 0 6.2 2.4 6.8 5.6.1.6-.4 1.2-1 1.2H12.1zm32.4-3c0 1.7-1.3 3-3 3h-.6c-.5 0-.9-.4-1-.9-.6-5-4.8-8.9-9.9-8.9H18c-5.1 0-9.4 3.9-9.9 8.9-.1.5-.5.9-1 .9h-.6c-1.7 0-3-1.3-3-3v-30c0-1.7 1.3-3 3-3h11.1c1.3 0 2.6-.5 3.5-1.5L24 4.1 26.9 7c.9.9 2.2 1.5 3.5 1.5h11.1c1.7 0 3 1.3 3 3v30zM24 12.5c-5.3 0-9.6 4.3-9.6 9.6s4.3 9.6 9.6 9.6 9.6-4.3 9.6-9.6-4.3-9.6-9.6-9.6zm0 16.1c-3.6 0-6.6-2.9-6.6-6.6 0-3.6 2.9-6.6 6.6-6.6s6.6 2.9 6.6 6.6c0 3.6-3 6.6-6.6 6.6z"></path></svg>
+            <span>TAGGED</span>
+        </a>
+    </div>
+    <router-outlet>
+        <div class="profile_content"></div>
+    </router-outlet>
+</div>
+
+<div *ngIf="newUserEntered">
+    <div class="select_prof_photo_screen">
+        <section class="select_prof_photo_block">
+            <h2>Welcome to Instagram-Clone!</h2>
+            <div class="profile_template">
+                <img src="../../../assets/images/select-profile-photo-new-user.jpg" alt="">
+                <div class="profile_photo_view" [lazyLoad]="currentUser?.profilePhoto"></div>
+            </div>
+            <div class="select_prof_photo_input_wrapper">
+                <label for="inputSelectProfIcon">Select profile photo</label>
+                <input (change)="uploadProfPhoto($event)" type="file" id="inputSelectProfIcon">
+            </div>
+            <button (click)="continueUsingNewUser()" class="continue_using" type="button" [disabled]="selectedPhotoBtnContinue">Continue</button>
+        </section>
+    </div>
+</div>
+
+<ng-template #showFollowingOrFollowers>
+    <div class="modal-header followModal">
+        <h4 class="modal-title pull-left">{{followListTypeTitleModal ? 'Following' : 'Followers'}}:</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body followModal">
+        <app-preloader *ngIf="showPreloader"></app-preloader>
+        <div *ngFor="let follUs of followListFullInfo" class="follow_list_user">
+            <div class="follow_list_user_info">
+                <a class="follow_list_user_icon" [routerLink]="[ '/profile/posts', follUs.id ]" [lazyLoad]="follUs.profilePhoto"></a>
+                <div class="follow_list_user_info_names">
+                    <a [routerLink]="[ '/profile/posts', follUs.id ]">{{follUs.nikname}}</a>
+                    <span>{{follUs.fullname}}</span>
+                </div>
+            </div>
+            <button *ngIf="!follUs.isAuthUs" (click)="followOrUnfollow(follUs)" [ngClass]="{'follow_too': follUs.isFollowToo}" type="button">{{follUs.isFollowToo ? 'Following' : 'Unfollow'}}</button>
+        </div>
+    </div>
+</ng-template>

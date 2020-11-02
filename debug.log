@@ -1,0 +1,5 @@
+[1014/002058.571:ERROR:directory_reader_win.cc(43)] FindFirstFile: Не вдалося знайти вказаний шлях. (0x3)
+[1014/124743.245:ERROR:directory_reader_win.cc(43)] FindFirstFile: Не вдалося знайти вказаний шлях. (0x3)
+[1014/233103.865:ERROR:directory_reader_win.cc(43)] FindFirstFile: Не вдалося знайти вказаний шлях. (0x3)
+[1102/001629.609:ERROR:directory_reader_win.cc(43)] FindFirstFile: Не вдалося знайти вказаний шлях. (0x3)
+[1102/223033.345:ERROR:directory_reader_win.cc(43)] FindFirstFile: Не вдалося знайти вказаний шлях. (0x3)

@@ -1,0 +1,105 @@
+@import '../../../shared/styles/mixin';
+
+.edit_profile_block{
+    @include D_Flex(flex, center, center);
+    margin-top: 16px;
+    .edit_profile_left{
+        width: 25%;
+        padding-right: 10px;
+        text-align: end;
+        label{
+            font-weight: 600;
+        }
+    }
+    .edit_profile_right{
+        width: 75%;
+        padding-left: 10px;
+        input, textarea{
+            background-color: var(--main-background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            color: var(--main-text-color);
+            width: 100%;
+            height: 32px;
+            padding: 0 10px;
+            font-size: 16px;
+            outline: none;
+            &:focus{
+                border: 1px solid #a8a8a8;
+            }
+        }
+        textarea{
+            resize: vertical;
+            min-height: 50px;
+        }
+        span{
+            margin-left: 15px;
+            color: var(--secondary-text-color);
+        }
+    }
+}
+
+.edit_profile_submit{
+    outline: none;
+    border-radius: 4px;
+    background-color: var(--action-color);
+    color: var(--block-background-color);
+    font-weight: 600;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit_profile_header_photo div{
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+}
+.edit_profile_header_title{
+    h3{
+        font-size: 20px;
+        font-weight: 400;
+        color: var(--main-text-color);  
+        line-height: 20px;
+    }
+    button{
+        border: none;
+        outline: none;
+        background: none;
+        color: var(--action-color);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+}
+label.change_profile_photo_modal_button{
+    line-height: 48px;
+    text-align: center;
+}
+
+.change_profile_photo_modal_button{
+    height: 48px;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    background: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    &:hover{
+        background-color: var(--main-background-color);
+    }
+}
+.upload_photo_modal{
+    color: #0095f6;
+}
+.remove_photo_modal{
+    color: #ed4956;
+}
+.cancel_modal{
+    font-weight: 400;
+}

@@ -1,0 +1,79 @@
+<ngx-spinner></ngx-spinner>
+<div class="edit_profile_header edit_profile_block">
+    <div class="edit_profile_header_photo edit_profile_left">
+        <div *ngIf="currentUser?.profilePhoto != ''" [ngStyle]="{'backgroundImage': 'url('+currentUser?.profilePhoto+')'}"></div>
+        <div *ngIf="currentUser?.profilePhoto == ''" [ngStyle]="{'backgroundImage': 'url(../../../../assets/images/default-profile-photo.jpg)'}"></div>
+    </div>
+    <div class="edit_profile_header_title edit_profile_right">
+        <h3>{{currentUser?.nikname}}</h3>
+        <button (click)="openModal(changeProfilePhotoModal)" type="button">Change Profile Photo</button>
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="fullname_edit">Full Name</label>
+    </div>
+    <div class="edit_profile_right">
+        <input id="fullname_edit" type="text" [(ngModel)]="fullname" name="fullname">
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="nikname_edit">Username</label>
+    </div>
+    <div class="edit_profile_right">
+        <input disabled id="nikname_edit" type="text" [(ngModel)]="nikname" name="nikname">
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="website_edit">Website</label>
+    </div>
+    <div class="edit_profile_right">
+        <input id="website_edit" type="text" [(ngModel)]="website" name="website">
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="bio_edit">Bio</label>
+    </div>
+    <div class="edit_profile_right">
+        <textarea id="bio_edit" cols="30" rows="10" [(ngModel)]="bio" name="bio"></textarea>
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="email_edit">Email</label>
+    </div>
+    <div class="edit_profile_right">
+        <input disabled id="email_edit" type="email" [(ngModel)]="email" name="email">
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left">
+        <label for="location_edit">Location</label>
+    </div>
+    <div class="edit_profile_right">
+        <input id="location_edit" type="text" [(ngModel)]="location" name="location">
+    </div>
+</div>
+<div class="edit_profile_block">
+    <div class="edit_profile_left"></div>
+    <div class="edit_profile_right">
+        <button class="edit_profile_submit" (click)="updateUserData()">Submit</button>
+        <span>{{updateStatus}}</span>
+    </div>
+</div>
+
+
+<ng-template #changeProfilePhotoModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Change Profile Photo</h4>
+    </div>
+    <div class="modal-body">
+       <input (change)="uploadProfPhoto($event)" type="file" style="display:none;" id="image">
+       <label class="change_profile_photo_modal_button upload_photo_modal" for="image">Upload Photo</label>
+      <button disabled class="change_profile_photo_modal_button remove_photo_modal" (click)="deleteProfPhoto()" type="button">Remove Current Photo</button>
+      <button class="change_profile_photo_modal_button cancel_modal" (click)="modalRef.hide()" type="button">Cancel</button>
+    </div>
+  </ng-template>

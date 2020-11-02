@@ -1,0 +1,48 @@
+@import '../../shared/styles/mixin';
+
+.footer_wrapper{
+    width: 100%;
+    padding: 0 20px;
+    height: 54px;
+    max-width: 1050px;
+    margin: 0 auto;
+    @include D_Flex(flex, space-between, center);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    .footer_links_list{
+        @include D_Flex(flex, flex-start, center);
+        list-style: none;
+        flex-wrap: wrap;
+        li:not(:last-child){
+            margin-right: 16px;
+        }
+        li span{
+            color: var(--link-text-color);
+            cursor: pointer;
+            &:active{
+                opacity: .5;
+            }
+        }
+    }
+    .footer_info{
+        color: var(--secondary-text-color); 
+        flex-shrink: 0;
+    }
+}
+
+
+@media screen and (max-width: 975px) {
+    .footer_wrapper{
+        flex-direction: column;
+    }
+};
+
+@media screen and (max-width : 750px) {
+    .footer_wrapper{
+        flex-direction: column;
+        .footer_links_list{
+            justify-content: center;
+        }
+    }
+}

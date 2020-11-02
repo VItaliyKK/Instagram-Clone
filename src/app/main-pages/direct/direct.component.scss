@@ -1,0 +1,207 @@
+@import '../../shared/styles/mixin';
+
+.direct_wrapper{
+    background: var(--block-background-color);
+    width: 100%;
+    height: calc(100vh - 110px);
+    margin-top: 80px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.dialog_list_wrapper, .dialog_wrapper{
+    height: 100%;
+}
+.dialog_list_wrapper{
+    width: 350px;
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+    .dialog_list_wrapper_header{
+        width: 100%;
+        height: 60px;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        h2{
+            text-align: center;
+            line-height: 60px;
+            color: var(--main-text-color);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        svg{
+            position: absolute;
+            top: calc(50% - 12px);
+            right: 15px;
+            cursor: pointer;
+        }
+    }
+    .dialog_list{
+        width: 100%;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        padding-top: 8px;
+        max-height: calc(100% - 60px);
+        overflow-y: auto;
+        .list_item{
+            width: 100%;
+            height: 72px;
+            padding: 8px 20px;
+            @include D_Flex(flex, flex-start, center);
+            flex-direction: row;
+            cursor: pointer;
+            &:hover{
+                background-color: var(--main-background-color);
+            }
+            &.active{
+                background-color: #efefef;
+            }
+            .list_item_icon_block, .list_item_icon_group{
+                margin-right: 12px;
+                width: 56px;
+                height: 56px;
+                flex-shrink: 0;
+                .list_item_icon{
+                    background-position: center;
+                    background-size: cover;
+                    border-radius: 50%;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .list_item_icon_group{
+                position: relative;
+                .icon_1_group, .icon_2_group{
+                    position: absolute;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background-position: center;
+                    background-size: cover;
+                }
+                .icon_1_group{
+                    top: 0;
+                    left: 0;
+                }
+                .icon_2_group{
+                    box-sizing: content-box;
+                    bottom: 0;
+                    right: 0;
+                    border: 2px solid var(--block-background-color);
+                }
+            }
+            .list_item_info{
+                @include D_Flex(flex, space-between, center);
+                flex-shrink: 1;
+                height: 100%;
+                width: 100%;
+                font-size: 14px;
+                time{
+                    color: var(--secondary-text-color);
+                }
+                span{
+                    color: var(--main-text-color);
+                    max-width: 150px;
+                    overflow: hidden;
+                }
+            }
+        }
+        .dialogs_empty_message{
+            margin-top: 50%;
+            color: var(--secondary-text-color);
+            font-size: 18px;
+            text-align: center;
+        }
+        &::-webkit-scrollbar { 
+            display: none;
+        }
+    }
+}
+.dialog_wrapper{
+    flex-shrink: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content{
+    max-height: 400px!important;
+}
+
+
+@media screen and (max-width : 800px) {
+    .dialog_list_wrapper{
+        width: 250px;
+        .dialog_list .list_item .list_item_info{
+            time{
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width : 700px) {
+    .dialog_list_wrapper{
+        width: 95px;
+        .dialog_list_wrapper_header{
+            svg{
+                right: 35px;
+            }
+            h2{
+                display: none;
+            }
+        }
+        .dialog_list .list_item .list_item_info{
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width : 500px) {
+    .direct_wrapper{
+        margin: 0;
+        height: calc(100vh - 55px);
+        flex-direction: column;
+        .dialog_list_wrapper{
+            width: 100%;
+            display: flex;
+            height: auto;
+            .dialog_list_wrapper_header{
+                width: 50px;
+                height: 40px;
+                svg{
+                    right: 12px;
+                }
+            }
+            .dialog_list{
+                max-height: 40px;
+                width: calc(100% - 50px);
+                overflow-x: auto;
+                flex-direction: row;
+                padding: 0;
+                border-bottom: 1px solid var(--border-color);
+                &::-webkit-scrollbar { 
+                    width: 0;
+                }
+                .list_item{
+                    height: 100%;
+                    width: 40px;
+                    padding: 5px;
+                }
+                .list_item .list_item_icon_block, .list_item .list_item_icon_group{
+                    width: 30px;
+                    height: 30px;
+                }
+                .list_item .list_item_icon_group div{
+                    width: 23px;
+                    height: 23px;
+                }
+                .list_item .list_item_icon_group .icon_2_group{
+                    border: 1px solid var(--block-background-color);
+                }
+            }
+        }
+    }
+}

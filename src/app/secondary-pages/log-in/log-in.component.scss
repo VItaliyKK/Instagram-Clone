@@ -1,0 +1,155 @@
+@import '../../shared/styles/mixin';
+
+.log_in_wrapper{
+    position: absolute;
+    background-color: var(--main-background-color);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    .log_in_form_container{
+        margin: 12px auto;
+        width: 350px;
+        @include D_Flex(flex, space-between, center);
+        flex-direction: column;
+        align-self: center;
+        .log_in_form_block{
+            width: 100%;
+            padding: 10px 0;
+            .log_in_form_title{
+                font-family: 'Pacifico';
+                font-size: 35px;
+                margin-top: 22px;
+                text-align: center;
+                user-select: none;
+            }
+            .log_in_form{
+                width: 268px;
+                margin: 24px auto 0;
+                .log_in_form_input_container{
+                    position: relative;
+                    margin-bottom: 6px;
+                    input{
+                        font-size: 12px;
+                        padding: 14px 0 2px 8px;
+                        outline: 0;
+                        border: 1px solid var(--border-color);
+                        background-color: var(--main-background-color);
+                        border-radius: 3px;
+                        width: 100%;
+                        height: 38px;
+                        &[id="emailID"]:focus ~ label, &[id="passwordID"]:focus ~ label{
+                            font-size: 10px;
+                            top: 3px;
+                            left: 8px;
+                        }
+                    }
+                    label{
+                        position: absolute;
+                        color:  var(--secondary-text-color);
+                        font-size: 12px;
+                        top: 11px;
+                        transition: all 0.1s linear;
+                    }
+                    label[for="emailID"]{
+                        left: 120px;
+                    }
+                    label[for="passwordID"]{
+                        left: 110px;
+                    }
+                    .show_hide_password{
+                       position: absolute;
+                       top: 9px;
+                       right: 7px;
+                       font-weight: 600;
+                       font-size: 14px;
+                       cursor: pointer;
+                    }
+                }
+                .log_in_button_submit{
+                    margin: 8px 0;
+                    padding: 5px 9px;
+                    background-color: var(--action-color);
+                    color: white;
+                    border-radius: 4px;
+                    outline: none;
+                    border:none;
+                    width: 100%;
+                    height: 30px;
+                    cursor: pointer;
+                    &:disabled{
+                        opacity: 0.6;
+                    }
+                }
+                .log_in_button_submit[disabled="true"]{
+                    opacity: 0.5;
+                    cursor: context-menu;
+                }
+                .forgot_password_link{
+                    display: block;
+                    color: var(--link-text-color);
+                    font-size: 12px;
+                    line-height: 14px;
+                    margin: 12px auto 10px;
+                    text-align: center; 
+                    cursor: pointer;
+                    background: none;
+                }
+            }
+        }
+        .log_in_form_block, .dont_have_account{
+            background-color: var(--block-background-color);
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+        }
+        .dont_have_account{
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+            p{
+                font-size: 14px;
+                margin: 15px;
+                a{
+                    color: var(--action-color);
+                    font-weight: 600;
+                }
+            }
+        }
+        .app_links_container{
+            width: 100%;
+            .app_links{
+                @include D_Flex(flex, center, center);
+                margin: 10px;
+                a{
+                    width: 136px;
+                    height: 40px;
+                    &:first-child{
+                        margin-right: 8px;
+                    }
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+            .get_app{
+                text-align: center;
+                margin: 10px 20px;
+            }
+        }
+    }
+}
+.input_label_done{
+    font-size: 10px!important;
+    top: 3px!important;
+    left: 8px!important;
+}
+.log_in_form_wrapper{
+    min-height: calc(100vh - 70px);
+    @include D_Flex(flex, center, center);
+}
+.error_block{
+    font-size: 14px;
+    color: #ed4956;
+    text-align: center;
+}

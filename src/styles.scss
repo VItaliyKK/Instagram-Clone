@@ -1,0 +1,22 @@
+@import './app/shared/styles/variables';
+@import './app/shared/styles/reset';
+@import './app/shared/styles/modal';
+@import './app/shared/styles/carousel';
+
+@font-face {
+    font-family: 'Pacifico';
+    src: url(./assets/fonts/Pacifico-Regular.ttf);
+};
+
+body{
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
+    overflow-x: hidden;
+    &::-webkit-scrollbar { 
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: var(--active-background);
+    }
+}

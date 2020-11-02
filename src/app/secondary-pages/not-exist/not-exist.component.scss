@@ -1,0 +1,16 @@
+@import '../../shared/styles/mixin';
+
+.not_exist_wrapper{
+    width: 100%;
+    height: calc(100vh - 110px);
+    @include D_Flex(flex, center, center);
+    h2{
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+    }
+    p a{
+        color: var(--action-color);
+    }
+}

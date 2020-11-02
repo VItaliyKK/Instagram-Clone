@@ -1,0 +1,21 @@
+.carousel_content{
+    display: flex;
+    height: 600px;
+    .carousel_img_element_wrapper{
+        .carousel_img_element{
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+}
+@media screen and (max-width : 600px) {
+    .carousel_content{
+        height: 100vw;
+    }
+    .carousel_img_element_wrapper{
+        width: 100vw;
+        height: 100vw;
+    }
+}

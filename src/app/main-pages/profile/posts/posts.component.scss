@@ -1,0 +1,218 @@
+@import '../../../shared/styles/mixin';
+
+.content_wrapper{
+    width: 100%;
+    header button{
+        background: none;
+        outline: none;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 5px 9px;
+        margin-left: 20px;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--main-text-color);
+        margin: 0 auto;
+        cursor: pointer;
+        display: table;
+    }
+}
+
+.content{
+    @include D_Flex(flex, flex-start, center);
+    flex-wrap: wrap;
+    margin-top: 30px;
+    .element{
+        width: 280px;
+        height: 280px;
+        margin-bottom: 46px;
+        position: relative;
+        .element_image{
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-color: #ececec;
+        }
+        .info_post_container{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: pointer;
+            outline: none;
+            .info_post{
+                @include D_Flex(flex, center, center);
+                width:100%;
+                height: 100%;
+                background-color: transparent;
+                transition: all 0.1s linear;
+                cursor: pointer;
+                &:hover{
+                    background-color: #0000004d;
+                    .info_post_likes, .info_post_comments{
+                        opacity: 1;
+                    }
+                }
+            }
+            .info_post .info_post_likes, .info_post .info_post_comments{
+                @include D_Flex(flex, center, center);
+                height: auto;
+                width: auto;
+                margin-left: 20px;
+                font-weight: 600;
+                color: white;
+                font-size: 20px;
+                opacity: 0;
+                transition: all 0.1s linear;
+                div{
+                    @include D_Flex(flex, center, center);
+                    background-repeat: no-repeat;
+                    background-size: auto;
+                    display: inline-block;
+                    width: 19px;
+                    height: 18px;
+                    margin-right: 5px;
+                }
+            }
+            .info_post .info_post_likes div{
+                background-position: -340px -334px;
+            }
+            .info_post .info_post_comments div{
+                background-position: -382px -334px;
+            }
+        }
+        &:nth-child(3n+1), &:nth-child(3n+2){
+            margin-right: 46px;
+        }  
+        .group_icon{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            height: 32px;
+            width: 32px;
+            background-image: url(../../../../assets/images/collection-icons-3.png);
+        } 
+    }
+    .empty_list{
+        width: 100%;
+        text-align: center;
+        color: var(--secondary-text-color);
+        font-size: 20px;
+        font-weight: 100;
+    }
+}
+
+.addNewPostModalHeader{
+    border-bottom: 1px solid var(--border-color);
+}
+.addNewPostModalBody{
+    display: flex;
+    flex-direction: column;
+    .uploaded_images{
+        margin: 20px 20px 0;
+        @include D_Flex(flex, center, center);
+        .uploaded_img{
+            width: 55px;
+            height: 55px;
+            border-radius: 4px;
+            margin: 1px;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+    label:hover{
+        background-color: var(--border-color);
+        border-color: var(--border-color);
+    }
+    input, label, textarea{
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--main-background-color);
+        height: 32px;
+        outline: none;
+        margin: 20px 20px 0;
+        padding: 0px 10px;
+        &:hover{
+            border-color: var(--secondary-text-color);
+        }
+    }
+    textarea{
+        resize: vertical;
+        min-height: 48px;
+    }
+    button{
+        font-size: 14px;
+        text-align: center;
+        font-weight: 700;
+        height: 50px;
+        cursor: pointer;
+        background: none;
+        border-top: 1px solid var(--border-color);
+        outline: none;
+        &:hover{
+            background: var(--main-background-color);
+        }
+        &.new_post_add{
+            color: var(--action-color);
+            margin-top: 20px;
+        }
+        &.new_post_cancel{
+            color: #ed4956;
+        }
+    }
+}
+
+.new_post_files{
+    text-align: center;
+}
+
+.select_prof_photo_screen{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.412);
+    @include D_Flex(flex, center, center);
+    .select_prof_photo_block{
+        width: 400px;
+        height: 400px;
+        background-color: var(--main-background-color);
+        border-radius: 4px;
+    }
+    
+}
+
+@media screen and (max-width: 975px) {
+    .content .element{
+        width: 256px;
+        height: 256px;
+        margin-bottom: 15px;
+        &:nth-child(3n+1), &:nth-child(3n+2){
+            margin-right: 15px;
+        }
+    }
+};
+
+@media screen and (max-width : 800px) {
+    .content .element{
+        width: calc((100vw - 35px) / 3);
+        height: calc((100vw - 35px) / 3);
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (max-width : 500px) {
+    .content_wrapper header button{
+        font-size: 16px;
+    }
+    .info_post:hover .info_post_likes{
+        margin: 0!important;
+    }
+}

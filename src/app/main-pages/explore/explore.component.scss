@@ -1,0 +1,19 @@
+@import '../profile/posts/posts.component.scss';
+
+.explore_wrapper{
+    width: 100%;
+    padding-top: 30px;
+}
+.group_icon{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    height: 32px;
+    width: 32px;
+    background-image: url(../../../assets/images/collection-icons-3.png);
+} 
+.explore.content{
+    margin-top: 0;
+}

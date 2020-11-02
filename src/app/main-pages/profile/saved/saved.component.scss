@@ -1,0 +1,13 @@
+@import '../../../shared/styles/mixin';
+@import '../posts/posts.component.scss';
+
+.group_icon{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    height: 32px;
+    width: 32px;
+    background-image: url(../../../../assets/images/collection-icons-3.png);
+}

@@ -1,0 +1,5 @@
+@mixin D_Flex($display, $just_cont, $alig_itm) {
+    display: $display;
+    justify-content: $just_cont;
+    align-items: $alig_itm;
+}

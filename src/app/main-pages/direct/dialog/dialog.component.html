@@ -1,0 +1,90 @@
+<div class="dialog_container">
+    <div class="dialog_header">
+        <div class="dialog_header_interlocutor" *ngIf="!showDialogInfo">
+            <div *ngFor="let obj of usersInfo" class="user_dialog">
+                <a [routerLink]="[ '/profile/posts', obj.idUser ]" class="dialog_header_interlocutor_icon_block">
+                    <div class="dialog_header_interlocutor_icon" [lazyLoad]="obj.profilePhoto"></div>
+                </a>
+                <a [routerLink]="[ '/profile/posts', obj.idUser ]" class="dialog_header_interlocutor_nikname">{{obj.nikname}}</a>
+            </div>
+        </div>
+        <h4 *ngIf="showDialogInfo">Delails</h4>
+        <svg (click)="showDialogInfo = !showDialogInfo" aria-label="View Thread Details" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle><path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path><path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>
+    </div>
+
+    <div *ngIf="!showDialogInfo" class="dialog_messages">
+        <div *ngIf="!messageIs" class="no_message">There are no messages in this dialog</div>
+        <div class="message_block" *ngFor="let message of messages" [ngClass]="{'author_auth': messageIsAuthUser(message.idAuthor)}">
+            <a [routerLink]="[ '/profile/posts', message.idAuthor ]">
+                <div *ngIf="!messageIsAuthUser(message.idAuthor)" [lazyLoad]="getAuthorUserProfilePhoto(message.idAuthor)" class="icon_message"></div>
+            </a>
+            <div *ngIf="message.type == 'text'"  class="message_content message_default">
+                <span>{{message.content}}</span>
+                <time>{{message.date | convertDate | date:'LLL d, HH:mm'}}</time>
+                <svg (click)="openMessageOptions(messageOptions, message)" aria-label="More options" fill="#262626" height="16" viewBox="0 0 48 48" width="16" class="post_option"><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle></svg>
+            </div>
+            <div *ngIf="message.type == 'photo' || message.type == 'video'" class="message_default">
+                <img  [ngClass]="{'author_auth': true}" class="message_content_media message_default" [lazyLoad]="message.content" (click)="openPhoto = true; gedUrlPhoto(message.content)" >
+                <time>{{message.date | convertDate | date:'LLL d, HH:mm'}}</time>
+                <svg (click)="openMessageOptions(messageOptions, message)" aria-label="More options" fill="#262626" height="16" viewBox="0 0 48 48" width="16" class="post_option"><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle></svg>
+            </div>      
+            <div *ngIf="message.type == 'post'" class="message_default message_content message_type_post">
+                <a [routerLink]="[ '/direct', message.inDialog, message.content ]">
+                    <h2>Post Link</h2>
+                    <p>Click for View</p>
+                </a>
+                <time>{{message.date | convertDate | date:'LLL d, HH:mm'}}</time>
+                <svg (click)="openMessageOptions(messageOptions, message)" aria-label="More options" fill="#262626" height="16" viewBox="0 0 48 48" width="16" class="post_option"><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle><circle _ngcontent-tfq-c49="" clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle></svg>
+            </div>       
+        </div>
+    </div>
+
+    <div *ngIf="showDialogInfo" class="dialog_info_wrapper">
+        <div class="dialog_users_wrapper">
+            <div class="dialog_users_title">
+                <span>Users:</span>
+                <div *ngIf="currentDialog.type == 'group'">
+                    <button class="add_new_user_in_dialog">Add User</button>
+                    <button class="leave_dialog">Leave group</button>
+                </div>
+            </div>
+             <div *ngFor="let obj of usersInfo" class="usersInfo">
+                <a [routerLink]="[ '/profile/posts', obj.idUser ]" class="user_in_dialog">
+                    <div class="user_in_dialog_icon" [lazyLoad]="obj.profilePhoto"></div>
+                    <div class="dialog_users_info_user">
+                        <h3>{{obj.nikname}}</h3>
+                        <p>{{obj.fullname}}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+       
+    </div>
+        
+    <div *ngIf="!showDialogInfo" class="dialog_send_message_block">
+        <div class="dialog_send_message_panel">
+            <svg aria-label="Emoji" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><path d="M34.9 24c0-1.4-1.1-2.5-2.5-2.5s-2.5 1.1-2.5 2.5 1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5zm-21.8 0c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5zM24 37.3c-5.2 0-8-3.5-8.2-3.7-.5-.6-.4-1.6.2-2.1.6-.5 1.6-.4 2.1.2.1.1 2.1 2.5 5.8 2.5 3.7 0 5.8-2.5 5.8-2.5.5-.6 1.5-.7 2.1-.2.6.5.7 1.5.2 2.1 0 .2-2.8 3.7-8 3.7z"></path></svg>
+            <textarea class="message_panel_textarea" cols="30" rows="1" placeholder="Message..." [(ngModel)]="messageInput" name="messageInput"></textarea>
+            <label for="sendFileMessage">
+                <svg aria-label="Add Photo or Video" fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M38.5 0h-29C4.3 0 0 4.3 0 9.5v29C0 43.7 4.3 48 9.5 48h29c5.2 0 9.5-4.3 9.5-9.5v-29C48 4.3 43.7 0 38.5 0zM45 38.5c0 3.6-2.9 6.5-6.5 6.5h-29c-3.3 0-6-2.5-6.4-5.6l8.3-8.3c.1-.1.3-.2.4-.2.1 0 .2 0 .4.2l6.3 6.3c1.4 1.4 3.6 1.4 5 0L35.9 25c.2-.2.6-.2.8 0l8.3 8.3v5.2zm0-9.4l-6.2-6.2c-1.3-1.3-3.7-1.3-5 0L21.3 35.3c-.1.1-.3.2-.4.2-.1 0-.2 0-.4-.2L14.2 29c-1.3-1.3-3.7-1.3-5 0L3 35.2V9.5C3 5.9 5.9 3 9.5 3h29C42.1 3 45 5.9 45 9.5v19.6zM11.8 8.2c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5z"></path></svg>
+            </label>
+            <input id="sendFileMessage" type="file" (change)=sendImageMessage($event) accept=".png,.jpg,.jpeg">
+            <button (click)="sendMessage()" type="button">Send</button>
+        </div>
+    </div>
+
+    <div class="modal_wrapper" *ngIf="openPhoto" (click)="openPhoto = false">
+        <img [src]="modalPhotoUrl" alt="">
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+
+
+<ng-template #messageOptions>
+    <div class="modal-body">
+        <button class="message_option" disabled>Reply</button>
+        <button *ngIf="isSelectedMessageAuthUser(selectedMessage)" class="message_option" (click)="deleteMessage()">Delete</button>
+        <button class="message_option" disabled>Copy Text</button>
+    </div>
+</ng-template>

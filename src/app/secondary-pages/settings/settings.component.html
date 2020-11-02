@@ -1,0 +1,37 @@
+<div class="settings_wrapper">
+    <ul class="settings_items_container">
+        <li>
+            <a [routerLink]="[ '/settings/edit-profile' ]" class="settings_item" routerLinkActive="active">Edit Profile</a>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Change Password</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Apps and Websites</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Email and SMS</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Push Notifications</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Manage Contacts</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Privacy and Security</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Login Activity</button>
+        </li>
+        <li>
+            <button class="settings_item disabled" disabled>Emails from Instagram</button>
+        </li>
+    </ul>
+    <article class="settings_content_wrapper">
+        <div class="settings_content">
+            <router-outlet></router-outlet>
+        </div>
+    </article>
+    <a [routerLink]="[ '/profile/posts/', idAuthUser ]" class="go_back_to_profile">Back to profile</a>
+</div>

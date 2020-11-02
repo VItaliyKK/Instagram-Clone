@@ -1,0 +1,60 @@
+<ngx-spinner></ngx-spinner>
+<section class="direct_wrapper">
+    <div class="dialog_list_wrapper">
+        <div class="dialog_list_wrapper_header">
+            <h2>Direct</h2>
+            <svg (click)="openModal(createNewDialogModal)" aria-label="New Message" fill="#262626" height="24" viewBox="0 0 44 44" width="24"><path d="M33.7 44.12H8.5a8.41 8.41 0 01-8.5-8.5v-25.2a8.41 8.41 0 018.5-8.5H23a1.5 1.5 0 010 3H8.5a5.45 5.45 0 00-5.5 5.5v25.2a5.45 5.45 0 005.5 5.5h25.2a5.45 5.45 0 005.5-5.5v-14.5a1.5 1.5 0 013 0v14.5a8.41 8.41 0 01-8.5 8.5z"></path><path d="M17.5 34.82h-6.7a1.5 1.5 0 01-1.5-1.5v-6.7a1.5 1.5 0 01.44-1.06L34.1 1.26a4.45 4.45 0 016.22 0l2.5 2.5a4.45 4.45 0 010 6.22l-24.3 24.4a1.5 1.5 0 01-1.02.44zm-5.2-3h4.58l23.86-24a1.45 1.45 0 000-2l-2.5-2.5a1.45 1.45 0 00-2 0l-24 23.86z"></path><path d="M38.2 14.02a1.51 1.51 0 01-1.1-.44l-6.56-6.56a1.5 1.5 0 012.12-2.12l6.6 6.6a1.49 1.49 0 010 2.12 1.51 1.51 0 01-1.06.4z"></path></svg>
+        </div>
+        <div class="dialog_list">
+            <div class="dialogs_empty_message" *ngIf="dialogsEmpty">You don't have a dialogue yet</div>
+            <a class="list_item" [routerLink]="[ '/direct/', dialog.idDialogPreview]" *ngFor="let dialog of dialogs; let i=index" routerLinkActive="active">
+                <div class="list_item_icon_block">
+                    <div *ngIf="dialog.type == 'private'" class="list_item_icon" [lazyLoad]="showInterlocutorPhoto(dialog.usersData, dialog.type,'profilePhoto')"></div>
+                    <div *ngIf="dialog.type == 'group'" class="list_item_icon_group">
+                        <div class="icon_1_group" [lazyLoad]="dialog.usersData[0].profilePhoto"></div>
+                        <div class="icon_2_group" [lazyLoad]="dialog.usersData[1].profilePhoto"></div>
+                    </div>
+                </div>
+                <div class="list_item_info">
+                    <span class="list_item_nikname">{{showInterlocutorPhoto(dialog.usersData, dialog.type,'nikname').length>24 ? (showInterlocutorPhoto(dialog.usersData, dialog.type,'nikname') | slice:0:33)+'...' : showInterlocutorPhoto(dialog.usersData, dialog.type,'nikname')}}</span>
+                    <time>{{dialog.lastActive.seconds | convertDate | date:'LLL d, HH:mm'}}</time>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="dialog_wrapper">
+        <router-outlet></router-outlet>
+    </div>
+</section>
+
+
+<ng-template #createNewDialogModal>
+    <div class="modal-header createNewDialogModalHead">
+        <svg (click)="modalRef.hide()" aria-label="Close" fill="#262626" height="18" viewBox="0 0 48 48" width="18"><path clip-rule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fill-rule="evenodd"></path></svg>
+        <h4 class="modal-title pull-left">New Message</h4>
+        <button (click)="createNewDialog()" type="button" [disabled]="disabledCreateDialog">Next</button>
+    </div>
+    <div class="modal-body createNewDialogModalBody">
+        <h4>To:</h4>
+        <input (keyup)="searchingUser()" type="text" class="search_user_input" [(ngModel)]="searchInput" name="searchInput" placeholder="Search...">
+    </div>
+    
+    <div class="modal-body createNewDialogModalFooter">
+        <div class="potensialUsersList">
+            <div class="selectedUser" *ngFor="let selectedUser of selectedListUsers" (click)="addInPotensialListDialog(selectedUser)">
+                <span>{{selectedUser.nikname}}</span>
+                <svg aria-label="Delete Item" fill="#0095f6" height="12" viewBox="0 0 48 48" width="12"><path clip-rule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fill-rule="evenodd"></path></svg>
+            </div>
+        </div>
+        <h4>Search result:</h4>
+        <app-preloader *ngIf="showPreloader"></app-preloader>
+        <div class="search_result" *ngFor="let foundUser of foundUsers" (click)="addInPotensialListDialog(foundUser)">
+            <div class="found_user_icon" [lazyLoad]="foundUser.profilePhoto"></div>
+            <div class="found_user_info">
+                <div class="found_user_nikname">{{foundUser.nikname}}</div>
+                <div class="found_user_fullName">{{foundUser.fullname}}</div>
+            </div>
+            <span class="selected" [ngClass]="{'selected': checkIsSelected(foundUser)}"></span>
+        </div>
+    </div>
+</ng-template>

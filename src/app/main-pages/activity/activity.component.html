@@ -1,0 +1,25 @@
+<section class="activity_wrapper" (window:scroll)="onScroll()">
+    <div class="activity" *ngFor="let activity of activities" >
+        <a [routerLink]="[ '/profile/posts', activity.fromUser ]">
+            <div class="activity_icon" [lazyLoad]="activity.profilePhoto"></div>
+        </a>
+        <div class="activity_content">
+            <a [routerLink]="[ '/profile/posts', activity.fromUser ]">
+                <span class="activity_content_nikname" >{{activity.nikname}}</span>
+            </a>
+            <span class="activity_content_text">{{getContextActivity(activity.type)}}</span>
+            <time>{{activity.date | convertDate | date:'LLL d, HH:mm'}}</time>
+        </div>
+        <div class="activity_object">
+            <button *ngIf="activity.type == 'following' && !activity.isFollowToo" (click)="followOrUnfollow(activity)" class="activity_follow" type="button">Follow</button>
+            <button *ngIf="activity.type == 'following' && activity.isFollowToo" (click)="followOrUnfollow(activity)" class="activity_following" type="button">Following</button>
+            <a [routerLink]="[ '/activity', activity.pinPost ]">
+                <div *ngIf="activity.type != 'following'" class="post_icon" [lazyLoad]="activity.postPhoto"></div>
+            </a>
+        </div>
+    </div>
+    <div class="activity_empty" *ngIf="activityEmpty">You have no activity yet</div>
+    <div #bottom_content></div>
+    <app-preloader *ngIf="showPreloader"></app-preloader>
+</section>
+<router-outlet></router-outlet>

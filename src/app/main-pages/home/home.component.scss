@@ -1,0 +1,242 @@
+@import '../../shared/styles/mixin';
+
+.home_wrapper{
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+.not_following_anyone{
+    color: var(--secondary-text-color);
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: 100;
+}
+.post_wrapper, .history_wrapper{
+    background-color: var(--block-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: 100%;
+}
+.history_wrapper{
+    display: none;
+    padding: 16px 0;
+    margin-bottom: 40px;
+    .histories{
+        height: 80px;
+        width: 100%;
+    }
+}
+
+.post_wrapper{
+    margin-bottom: 40px;
+    box-sizing: content-box;
+    .post_header{
+        @include D_Flex(flex, flex-start, center);
+        padding: 16px;
+        height: 60px;
+        position: relative;
+        .post_icon{
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-position: center;
+            background-size: cover;
+        }
+        .post_nikname_and_location{
+            display: flex;
+            flex-direction: column;
+            margin-left: 14px;
+            .post_nikname{
+                color: var(--main-text-color);
+                font-size: 14px;
+                font-weight: 600;
+            }
+            span{
+                font-size: 12px;
+                font-family: emoji;
+                letter-spacing: 2px;
+            }
+        }
+        .post_option{
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+        }
+    }
+    .photos_wrapper{
+        height: 600px;
+        overflow: hidden;
+        width: 600px;
+        position: relative;
+        .label_for_arrow{
+            position: absolute;
+            background: transparent;
+            top: 0;
+            height: 100%;
+            width: 20%;
+            cursor: pointer;
+            &.label_for_arrow_left{
+                left: 0;
+            }
+            &.label_for_arrow_right{
+                right: 0;
+            }
+        }
+        .photos_list{
+            display: flex;
+            width: max-content;
+            transform: translateX(0px);
+            transition: all 0.4s cubic-bezier(0.76, 0.74, 0, 0.98);
+            .img_post{
+                width: 600px;
+                height: 600px;
+                background-position: center;
+                background-size: cover;
+                background-color: #ececec;
+            }
+        }
+        .group_icon{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            height: 32px;
+            width: 32px;
+            background-image: url(../../../assets/images/collection-icons-3.png);
+            z-index: 10;
+        } 
+    }
+    .actions_post{
+        @include D_Flex(flex, space-between, center);
+        padding: 8px 16px 0px;
+        button{
+            transition: all 0.1s linear;
+            cursor: pointer;
+            background: none;
+            outline: none;
+            &:hover{
+                transform: scale(1.05);
+            }
+        }
+        .actions_like_comment_share{
+            @include D_Flex(flex, flex-start, center);
+            button{
+                margin-top: 8px;
+                margin-right: 16px;
+            }
+        }
+        .saved_post button{
+            margin: 8px;
+        }
+    }
+    .likes{
+        padding: 0 16px;
+        color: var(--main-text-color);
+        font-size: 14px;
+        font-weight: 600;
+        background: none;
+    }
+    .description{
+        padding: 0 16px;
+        .post_nikname{
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 5px;
+            color: var(--main-text-color);
+        }
+        .post_description{
+            display: inline;
+            font-size: 14px;
+            word-break: break-word;
+            color: var(--main-text-color);
+        }
+    }
+    .comments{
+        font-size: 14px;
+        margin-bottom: 4px;
+        color: var(--secondary-text-color);
+        display: block;
+        margin: 4px 16px;
+    }
+    .date time{
+        font-size: 10px;
+        letter-spacing: .2px;
+        color: var(--secondary-text-color);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        margin: 4px 16px;
+    }
+    .add_comment_wrapper{
+        margin-top: 8px;
+        min-height: 56px;
+        padding: 1px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        border-top: 1px solid var(--border-color);
+        textarea{
+            outline: none;
+            border: none;
+            resize: none;
+            line-height: 18px;
+            flex-grow: 1;
+            max-height: 53px;
+            padding: 17px 8px;
+        }
+        button{
+            outline: none;
+            border: none;
+            background: none;
+            color: var(--action-color);
+            font-weight: 600;
+            cursor: pointer;
+            flex-grow: 0;
+        }
+    }
+}
+.potensialUsersList{
+    display: flex;
+    flex-wrap: wrap;
+    .selectedUser{
+        background-color: #e0f1ff;
+        height: 35px;
+        padding: 0 12px;
+        margin: 2px;
+        @include D_Flex(flex, space-between, center);
+        border-radius: 4px;
+        width: min-content;
+        cursor: pointer;
+        span{
+            color: var(--action-color);
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    }
+}
+.carousel_content{
+    display: flex;
+    .carousel_img_element_wrapper{
+        .carousel_img_element{
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+}
+
+@media screen and (max-width : 600px) {
+    .home_wrapper{
+        width: 100%;
+    }
+    .post_wrapper .photos_wrapper, .post_wrapper .photos_wrapper .photos_list .img_post{
+        width: 100vw;
+        height: 100vw;
+        
+    }
+}

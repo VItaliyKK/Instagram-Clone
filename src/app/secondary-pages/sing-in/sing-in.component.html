@@ -1,0 +1,58 @@
+<ngx-spinner></ngx-spinner>
+<div class="sing_up_wrapper">
+    <article class="sing_up_form_wrapper">
+        <div class="sing_up_form_container">
+            <div class="sing_up_form_block">
+                <h1 class="sing_up_form_title">Instagram-Clone</h1>
+                <h2 class="sing_up_form_subtitle">Sign up to see photos and videos from your friends.</h2>
+                <form class="sing_up_form" action="" novalidate (ngSubmit)="singUp()" (keyup)="checkDisabledButton()">
+                    <div class="sing_up_form_input_container">
+                        <input id="emailID" type="text" [(ngModel)]="email" name="email" required>
+                        <label for="emailID" [ngClass]="{'input_label_done': email != ''}">Email</label>
+                        <span class="valid_input_form" [ngClass]="{'incorrectInputForm': !emailIsValid}"></span>
+                    </div>
+                    <div class="sing_up_form_input_container">
+                        <input id="fullNameID" type="text" [(ngModel)]="fullName" name="fullName" required>
+                        <label for="fullNameID" [ngClass]="{'input_label_done': fullName != ''}">Full Name</label>
+                        <span class="valid_input_form" [ngClass]="{'incorrectInputForm': !fullNameIsValid}"></span>
+                    </div>
+                    <div class="sing_up_form_input_container">
+                        <input id="niknameID" type="text" [(ngModel)]="nikname" name="nikname" required>
+                        <label for="niknameID" [ngClass]="{'input_label_done': nikname != ''}">Username</label>
+                        <span class="valid_input_form" [ngClass]="{'incorrectInputForm': !niknameIsValid}"></span>
+                    </div>
+                    <div class="sing_up_form_input_container">
+                        <input id="passwordID" [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="password"
+                            name="password" required>
+                        <label for="passwordID" [ngClass]="{'input_label_done': password != ''}">Password</label>
+                        <span class="valid_input_form" [ngClass]="{'incorrectInputForm': !passwordIsValid}"></span>
+                        <span class="show_hide_password" [ngStyle]="{'display':password == '' ? 'none' : 'block'}"
+                            (click)="toogleShowPassword()">{{ isShowPassword ? 'Hide' : 'Show' }}</span>
+                    </div>
+                    <button class="sing_up_button_submit" type="submit" [disabled]="submitButtonDisabled">Sing Up</button>
+                    <div class="error_block">{{ errorMessage ? errorMessage : '' }}</div>
+                    <p class="you_agree_terms">By signing up, you agree to our Terms , Data Policy and Cookies Policy .</p>
+                </form>
+            </div>
+            <div class="dont_have_account">
+                <p>Have an account? <a [routerLink]="[ '/log-in' ]">Log in</a></p>
+            </div>
+            <div class="app_links_container">
+                <p class="get_app">Get the app</p>
+                <div class="app_links">
+                    <a target="_blank"
+                        href="https://itunes.apple.com/app/instagram/id389801252?pt=428156&ct=igweb.loginPage.badge&mt=8&vt=lo">
+                        <img src="../../../assets/images/app-google-play.png" alt="">
+                    </a>
+                    <a target="_blank"
+                        href="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DloginPage%26ig_mid%3D8A14F06E-3EE3-4A3F-AFF1-8DD0C9382B72%26utm_content%3Dlo%26utm_medium%3Dbadge">
+                        <img src="../../../assets/images/app-app-store.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="footer_wrapper">
+        <app-footer></app-footer>
+    </div>
+</div>

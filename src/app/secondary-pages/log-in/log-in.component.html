@@ -1,0 +1,45 @@
+<ngx-spinner></ngx-spinner>
+<div class="log_in_wrapper">
+    <article class="log_in_form_wrapper">
+        <div class="log_in_form_container">
+            <div class="log_in_form_block">
+                <h1 class="log_in_form_title">Instagram-Clone</h1>
+                <form class="log_in_form" action="" novalidate (ngSubmit)="logIn()" (keyup)="changeButtonDisabled()">
+                    <div class="log_in_form_input_container">
+                        <input id="emailID" type="text" [(ngModel)]="email" name="email" required>
+                        <label for="emailID" [ngClass]="{'input_label_done': email != ''}">Email</label>
+                    </div>
+                    <div class="log_in_form_input_container">
+                        <input id="passwordID" [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="password"
+                            name="password" required>
+                        <label for="passwordID" [ngClass]="{'input_label_done': password != ''}">Password</label>
+                        <span class="show_hide_password" [ngStyle]="{'display':password == '' ? 'none' : 'block'}"
+                            (click)="toogleShowPassword()">{{ isShowPassword ? 'Hide' : 'Show' }}</span>
+                    </div>
+                    <button class="log_in_button_submit" type="submit" [disabled]="submitButtom">Log In</button>
+                    <div class="error_block">{{ errorMessage != '' ? errorMessage : '' }}</div>
+                    <button class="forgot_password_link" type="button">Forgot password?</button>
+                </form>
+            </div>
+            <div class="dont_have_account">
+                <p>Don't have an account? <a [routerLink]="[ '/sing-up' ]">Sing Up</a></p>
+            </div>
+            <div class="app_links_container">
+                <p class="get_app">Get the app</p>
+                <div class="app_links">
+                    <a target="_blank"
+                        href="https://itunes.apple.com/app/instagram/id389801252?pt=428156&ct=igweb.loginPage.badge&mt=8&vt=lo">
+                        <img src="../../../assets/images/app-google-play.png" alt="">
+                    </a>
+                    <a target="_blank"
+                        href="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DloginPage%26ig_mid%3D8A14F06E-3EE3-4A3F-AFF1-8DD0C9382B72%26utm_content%3Dlo%26utm_medium%3Dbadge">
+                        <img src="../../../assets/images/app-app-store.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="footer_wrapper">
+        <app-footer></app-footer>
+    </div>
+</div>
